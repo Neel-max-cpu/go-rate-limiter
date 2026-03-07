@@ -1,0 +1,48 @@
+1) create package-- initialize go mod
+2) initialized libraries --
+go get github.com/gin-gonic/gin
+go get github.com/redis/go-redis/v9
+go get github.com/jackc/pgx/v5
+go get github.com/google/uuid
+go get github.com/joho/godotenv -- env
+| Package  | Purpose         |
+| -------- | --------------- |
+| Gin      | HTTP APIs       |
+| pgx      | Postgres driver |
+| go-redis | Redis client    |
+| uuid     | API keys        |
+
+
+3) create folder structures partly same convention except controller - which we write handlers
+4) in main.go (main application) r:= creates gin rounder (or engine) with 2 middle ware already attached logger and recovery
+
+5) create docker-compose.yml file --- 
+-- to start the service -- docker compose up -d; what it does:
+Docker reads docker-compose.yml
+Pulls images if not present
+Creates containers
+Starts them in background
+--- and to check : docker ps
+== docker compose up -d (to start service ) and docker compose down( to stop service) and check running containers (docker ps)
+
+# ☀️ Morning: Start working (ALWAYS use this)
+docker compose up -d   # Safe - creates OR starts containers
+
+# 💻 During the day: Quick pause/resume
+docker compose stop    # Fast pause
+docker compose start   # Fast resume
+
+# 🌙 Evening: Clean shutdown
+docker compose down    # Removes containers, KEEPS data
+
+# 🧹 Rare: Complete reset (only when you want to wipe everything)
+docker compose down -v # Removes containers AND data
+
+all scripts ---
+docker ps (to check running containers)
+Command	 		What it does					Container State		Data
+docker compose up -d	Creates and starts containers in background	✅ Running		✅ Kept
+docker compose start	Starts existing stopped containers		✅ Running		✅ Kept
+docker compose stop	Gracefully stops running containers		⏸️ Stopped		✅ Kept
+docker compose down	Stops AND removes containers			❌ Removed		✅ Kept
+docker compose down -v	Stops, removes containers AND deletes volumes	❌ Removed		❌ Deleted
