@@ -75,6 +75,26 @@ If dependencies break:
 go mod tidy
 ```
 
+Make an .env file -- using the local host if in local else before building in docker uncomment the below and comment the local ones
+```
+# .env file
+PORT=8080
+DB_USER={db username}
+DB_PASSWORD={db password}
+DB_NAME={db name}
+
+DB_HOST=localhost
+DB_PORT=5433
+
+# DB_HOST=postgres
+# DB_PORT=5432
+
+REDIS_HOST=localhost
+# REDIS_HOST=redis
+
+REDIS_PORT=6379
+```
+
 ---
 
 # Project Structure
