@@ -46,3 +46,58 @@ docker compose start	Starts existing stopped containers		✅ Running		✅ Kept
 docker compose stop	Gracefully stops running containers		⏸️ Stopped		✅ Kept
 docker compose down	Stops AND removes containers			❌ Removed		✅ Kept
 docker compose down -v	Stops, removes containers AND deletes volumes	❌ Removed		❌ Deleted
+
+
+in go class/structs
+Uppercase first letter → exported (public)
+Lowercase first letter → private
+
+here -- func CreateUser(c *gin.Context) 
+c contains all of this --
+    // The 'c' parameter contains ALL of this:
+    
+    // 1. Request Data
+    body := c.Request.Body           // Raw request body
+    headers := c.Request.Header      // HTTP headers
+    method := c.Request.Method        // GET, POST, etc.
+    path := c.Request.URL.Path        // "/users"
+    params := c.Params                 // URL parameters (e.g., /users/:id)
+    query := c.Query("search")         // Query string ?search=something
+    
+    // 2. Client Info
+    clientIP := c.ClientIP()           // IP address of client
+    userAgent := c.GetHeader("User-Agent")
+    
+    // 3. Methods to send responses
+    c.JSON(200, gin.H{"message": "ok"})        // Send JSON
+    c.String(200, "plain text")                 // Send text
+    c.File("file.pdf")                           // Send file
+    c.Redirect(301, "/new-location")            // Redirect
+    
+    // 4. Context for cancellation/deadlines
+    ctx := c.Request.Context()  // Can be passed to DB calls
+    
+    // 5. Set/Get values (for middleware)
+    c.Set("user_id", 123)
+    userID := c.GetInt("user_id")
+
+
+-- docker
+Dockerfile = recipe to build ONE container
+docker-compose.yml = recipe to run MANY containers together
+
+-- in development no build ---
+docker compose up postgres redis -d
+go run cmd/server/main.go
+
+-- when fully in docker change the env and do
+docker compose up --build
+
+
+
+-- run go file
+go run cmd/server/main.go
+
+go run cmd/server/main.go --env=local
+go run cmd/server/main.go --env=docker
+

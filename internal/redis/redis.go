@@ -11,8 +11,10 @@ var Client *redis.Client
 var Ctx = context.Background()
 
 func Connect() {
+	host := os.Getenv("REDIS_HOST")
+	port := os.Getenv("REDIS_PORT")
 	Client = redis.NewClient(&redis.Options{
 		// Addr: "localhost:6379",
-		Addr: "localhost:" + os.Getenv("REDIS_PORT"),
+		Addr: host + ":" + port,
 	})
 }

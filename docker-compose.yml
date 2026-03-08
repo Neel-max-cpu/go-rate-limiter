@@ -1,19 +1,29 @@
 # Docker will download and run:
 # PostgreSQL Redis inside containers. So instead of installing them on your computer, Docker runs them isolated
 
-version: "3.9"
+# version: "3.9"
 
 services:
+  app:
+    build: .
+    container_name: go_api
+    ports:
+      - "${PORT}:8080"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
 
   postgres:
-    image: postgres:15              # Uses PostgreSQL version 15 from Docker Hub
-    container_name: go_postgres     # Fixed container name (easier to reference)
-    restart: always                 # Automatically restarts if container crashes or Docker restarts
+    image: postgres:15 # Uses PostgreSQL version 15 from Docker Hub
+    container_name: go_postgres # Fixed container name (easier to reference)
+    restart: always # Automatically restarts if container crashes or Docker restarts
     environment:
       # Environment variables passed to the container
-      POSTGRES_USER: ${DB_USER}             # Database superuser username
-      POSTGRES_PASSWORD: ${DB_PASSWORD}     # Database password
-      POSTGRES_DB: ${DB_NAME}               # Default database to create
+      POSTGRES_USER: ${DB_USER} # Database superuser username
+      POSTGRES_PASSWORD: ${DB_PASSWORD} # Database password
+      POSTGRES_DB: ${DB_NAME} # Default database to create
     ports:
       - "${DB_PORT}:5432"
         # Maps host port 5433 to container port 5432
@@ -32,4 +42,4 @@ services:
         # Access Redis on localhost:6379
 
 volumes:
-  postgres_data:                          # Named volume for PostgreSQL data persistence
+  postgres_data: # Named volume for PostgreSQL data persistence

@@ -14,6 +14,9 @@ var DB *pgxpool.Pool
 
 func Connect() error {
 	host := os.Getenv("DB_HOST")
+	if host == "" {
+		host = "localhost" // Default if not set
+	}
 	port := os.Getenv("DB_PORT")
 	connStr := fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
